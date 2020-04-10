@@ -7,4 +7,6 @@ public interface RegistrationEntity {
   String getFullName();
 
   String getRegistrationToken();
+
+  Role getRole();
 }

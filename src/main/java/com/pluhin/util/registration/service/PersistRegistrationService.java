@@ -20,7 +20,12 @@ public class PersistRegistrationService implements RegistrationService {
   @Override
   public RegisteredUser register(RegistrationRequest request) {
     String token = UUID.randomUUID().toString().replace("-", "");
-    RegistrationEntity entity = new DefaultRegistrationEntity(request.getUsername(), request.getFullName(), token);
+    RegistrationEntity entity = new DefaultRegistrationEntity(
+        request.getUsername(),
+        request.getFullName(),
+        token,
+        request.getRole()
+    );
     registrationRepository.save(entity);
     return new DefaultRegisteredUser(token);
   }

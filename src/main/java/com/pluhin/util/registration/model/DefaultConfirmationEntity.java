@@ -1,11 +1,18 @@
 package com.pluhin.util.registration.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DefaultConfirmationEntity implements ConfirmationEntity {
 
   private final String token;
   private final String password;
 
-  public DefaultConfirmationEntity(String token, String password) {
+  @JsonCreator
+  public DefaultConfirmationEntity(
+      @JsonProperty("token") String token,
+      @JsonProperty("password") String password
+  ) {
     this.token = token;
     this.password = password;
   }

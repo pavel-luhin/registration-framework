@@ -1,6 +1,6 @@
 package com.pluhin.util.registration.model;
 
-public class DefaultRegisteredUser implements RegisteredUser{
+public class DefaultRegisteredUser implements RegisteredUser {
 
   private final String registrationToken;
 
