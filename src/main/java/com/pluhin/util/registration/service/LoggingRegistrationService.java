@@ -22,6 +22,8 @@ public class LoggingRegistrationService implements RegistrationService {
         request.getFullName(),
         request.getRole().name()
     );
-    return delegate.register(request);
+    RegisteredUser user = delegate.register(request);
+    LOGGER.info("Registered user with token {}", user.getRegistrationToken());
+    return user;
   }
 }
