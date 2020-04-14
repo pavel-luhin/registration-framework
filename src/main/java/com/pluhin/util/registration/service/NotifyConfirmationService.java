@@ -6,6 +6,7 @@ import com.pluhin.util.notification.model.DefaultRecipient;
 import com.pluhin.util.notification.model.NotificationRequest;
 import com.pluhin.util.notification.model.Recipient;
 import com.pluhin.util.notification.model.RecipientType;
+import com.pluhin.util.registration.fetcher.RecipientFetcher;
 import com.pluhin.util.registration.model.ConfirmationEntity;
 import com.pluhin.util.registration.model.RegistrationEntity;
 import java.util.Collections;
@@ -19,19 +20,23 @@ public class NotifyConfirmationService implements ConfirmationService {
   private final ConfirmationService delegate;
   private final NotificationService notificationService;
   private final RecipientType notificationType;
+  private final RecipientFetcher fetcher;
 
   public NotifyConfirmationService(ConfirmationService delegate,
-      NotificationService notificationService, RecipientType notificationType) {
+      NotificationService notificationService, RecipientType notificationType,
+      RecipientFetcher fetcher) {
     this.delegate = delegate;
     this.notificationService = notificationService;
     this.notificationType = notificationType;
+    this.fetcher = fetcher;
   }
 
   @Override
   public RegistrationEntity confirm(ConfirmationEntity confirmationEntity) {
     RegistrationEntity entity = delegate.confirm(confirmationEntity);
 
-    Recipient recipient = new DefaultRecipient(notificationType, entity.getUsername());
+    String address = fetcher.fetch(entity);
+    Recipient recipient = new DefaultRecipient(notificationType, address);
     NotificationRequest notificationRequest = new DefaultNotificationRequest(
         recipient,
         TEMPLATE_NAME,

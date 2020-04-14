@@ -1,8 +1,6 @@
 package com.pluhin.util.registration.service;
 
-import com.pluhin.util.registration.model.DefaultRegisteredUser;
 import com.pluhin.util.registration.model.DefaultRegistrationEntity;
-import com.pluhin.util.registration.model.RegisteredUser;
 import com.pluhin.util.registration.model.RegistrationEntity;
 import com.pluhin.util.registration.model.RegistrationRequest;
 import com.pluhin.util.registration.repository.RegistrationRepository;
@@ -18,7 +16,7 @@ public class PersistRegistrationService implements RegistrationService {
   }
 
   @Override
-  public RegisteredUser register(RegistrationRequest request) {
+  public RegistrationEntity register(RegistrationRequest request) {
     String token = UUID.randomUUID().toString().replace("-", "");
     RegistrationEntity entity = new DefaultRegistrationEntity(
         request.getUsername(),
@@ -27,6 +25,11 @@ public class PersistRegistrationService implements RegistrationService {
         request.getRole()
     );
     registrationRepository.save(entity);
-    return new DefaultRegisteredUser(token);
+    return new DefaultRegistrationEntity(
+        request.getUsername(),
+        request.getFullName(),
+        token,
+        request.getRole()
+    );
   }
 }
